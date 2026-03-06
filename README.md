@@ -1,91 +1,99 @@
 # SkyCards User Data Export
 
-A shell script that logs into the SkyCards API and exports your user data to a local JSON file — which you can then upload to **[skystats.win](https://skystats.win/)** for a full interactive dashboard with visualizations and search.
+Scripts that log into the SkyCards API and export your user data to a local JSON file, which you can then upload to **[skystats.win](https://skystats.win/)** for a full interactive dashboard with visualizations and search.
+
+This repository includes:
+
+- `skycards_export.sh` for macOS, Linux, and Bash-compatible shells
+- `skycards_export.ps1` for native Windows PowerShell
 
 ---
 
 ## Prerequisites
 
-The script requires **`curl`** and **`jq`** to be installed.
+### macOS / Linux / Git Bash
 
-### macOS
+The Bash script requires **`curl`** and **`jq`**.
 
-Both tools can be installed via [Homebrew](https://brew.sh/):
+macOS with [Homebrew](https://brew.sh/):
 
 ```bash
 brew install curl jq
 ```
 
-`curl` is also pre-installed on most modern macOS versions.
-
-### Linux (Debian/Ubuntu)
+Debian / Ubuntu:
 
 ```bash
 sudo apt update && sudo apt install curl jq
 ```
 
-For Fedora/RHEL:
+Fedora / RHEL:
 
 ```bash
 sudo dnf install curl jq
 ```
 
-### Windows
+### Windows PowerShell
 
-The script is a Bash script and requires a Unix-like shell environment on Windows. The easiest option is **Git Bash**, which comes bundled with [Git for Windows](https://git-scm.com/downloads).
-
-1. Install [Git for Windows](https://git-scm.com/downloads) — Git Bash is included automatically.
-2. Install `jq`:
-   - Download the latest `jq` Windows binary from [jq releases](https://github.com/jqlang/jq/releases).
-   - Rename the downloaded file to `jq.exe` and place it somewhere on your PATH (e.g., `C:\Program Files\Git\usr\bin\`).
-
-Alternatively, you can use [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/install) and follow the Linux instructions above.
+The PowerShell script uses built-in Windows tooling. No additional dependencies are required beyond Windows PowerShell 5.1 or PowerShell 7+.
 
 ---
 
 ## Usage
 
-### 1. Download the script
+### Download the script directly
+
+macOS / Linux / Git Bash:
 
 ```bash
 curl -O https://raw.githubusercontent.com/mfkp/skycards-export/main/skycards_export.sh
+chmod +x skycards_export.sh
+./skycards_export.sh
 ```
 
-Or clone the repository:
+Windows PowerShell:
+
+```powershell
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/mfkp/skycards-export/main/skycards_export.ps1 -OutFile skycards_export.ps1
+powershell -ExecutionPolicy Bypass -File .\skycards_export.ps1
+```
+
+### Or clone the repository
 
 ```bash
 git clone https://github.com/mfkp/skycards-export.git
 cd skycards-export
 ```
 
-### 2. Make the script executable
-
-**macOS / Linux / Git Bash (Windows):**
+Run the Bash script on macOS, Linux, or Git Bash:
 
 ```bash
 chmod +x skycards_export.sh
-```
-
-### 3. Run the script
-
-```bash
 ./skycards_export.sh
 ```
 
-You will be prompted for your SkyCards **email** and **password**. The password input is hidden as you type.
+Run the PowerShell script on Windows:
 
+```powershell
+powershell -ExecutionPolicy Bypass -File .\skycards_export.ps1
 ```
+
+Both scripts prompt for your SkyCards **email** and **password**. The password input is hidden as you type.
+
+```text
 Email: you@example.com
 Password:
 Logging in...
 Success! User data saved to: skycards_user.json
 ```
 
+The PowerShell script also supports optional parameters such as `-Email` and `-OutputFile`.
+
 ---
 
 ## Output
 
-The script saves your exported data to **`skycards_user.json`** in the current directory. The file contains:
+The scripts save your exported data to **`skycards_user.json`** in the current directory. The file contains:
 
 | Field | Description |
 |---|---|
@@ -104,16 +112,18 @@ The script saves your exported data to **`skycards_user.json`** in the current d
 
 ## Visualize Your Data
 
-Once you have `skycards_user.json`, head over to **[skystats.win](https://skystats.win/)** and upload the file for a full interactive dashboard — including stats, charts, and searchable card data.
+Once you have `skycards_user.json`, head over to **[skystats.win](https://skystats.win/)** and upload the file for a full interactive dashboard, including stats, charts, and searchable card data.
 
 ---
 
 ## Troubleshooting
 
-**`jq: command not found`** — Install `jq` using the instructions in the Prerequisites section above.
+**`jq: command not found`** - Install `jq` using the Bash prerequisites above.
 
-**`curl: command not found`** — Install `curl` or use Git Bash / WSL on Windows.
+**`curl: command not found`** - Install `curl`, or use the PowerShell script on Windows.
 
-**`API Error: ...`** — Double-check your email and password. Make sure your SkyCards account is active.
+**`File cannot be loaded because running scripts is disabled on this system`** - Run the PowerShell script with `powershell -ExecutionPolicy Bypass -File .\skycards_export.ps1`.
 
-**`Failed to connect to the API`** — Check your internet connection and try again.
+**`API Error: ...`** - Double-check your email and password. Make sure your SkyCards account is active.
+
+**`Failed to connect to the API`** - Check your internet connection and try again.
