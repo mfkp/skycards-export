@@ -23,7 +23,7 @@ RESPONSE=$(curl -s -X POST "https://api.skycards.oldapes.com/users/" \
   -H "Content-Type: application/json" \
   -H "Host: api.skycards.oldapes.com" \
   -H "User-Agent: okhttp/4.12.0" \
-  -H "x-client-version: 2.0.27" \
+  -H "x-client-version: 2.0.28" \
   --compressed \
   -d "{\"email\": \"$EMAIL\", \"password\": \"$PASSWORD\"}")
 
