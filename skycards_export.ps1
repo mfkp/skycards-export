@@ -102,7 +102,7 @@ try {
     $client = [System.Net.Http.HttpClient]::new($handler)
     $client.DefaultRequestHeaders.Accept.Add([System.Net.Http.Headers.MediaTypeWithQualityHeaderValue]::new("application/json"))
     $client.DefaultRequestHeaders.UserAgent.ParseAdd("okhttp/4.12.0")
-    $client.DefaultRequestHeaders.TryAddWithoutValidation("x-client-version", "2.1.3") | Out-Null
+    $client.DefaultRequestHeaders.TryAddWithoutValidation("x-client-version", "2.2.0") | Out-Null
 
     $content = [System.Net.Http.StringContent]::new($body, [System.Text.Encoding]::UTF8, "application/json")
     $responseMessage = $client.PostAsync("https://api.skycards.oldapes.com/users/", $content).GetAwaiter().GetResult()
