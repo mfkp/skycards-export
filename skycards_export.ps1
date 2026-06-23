@@ -6,6 +6,9 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+$SkycardsVersion = "2.2.2"
+$OkhttpVersion = "4.12.0"
+
 function Fail {
     param(
         [Parameter(Mandatory = $true)]
@@ -101,8 +104,8 @@ try {
 
     $client = [System.Net.Http.HttpClient]::new($handler)
     $client.DefaultRequestHeaders.Accept.Add([System.Net.Http.Headers.MediaTypeWithQualityHeaderValue]::new("application/json"))
-    $client.DefaultRequestHeaders.UserAgent.ParseAdd("okhttp/4.12.0")
-    $client.DefaultRequestHeaders.TryAddWithoutValidation("x-client-version", "2.2.2") | Out-Null
+    $client.DefaultRequestHeaders.UserAgent.ParseAdd("okhttp/$OkhttpVersion")
+    $client.DefaultRequestHeaders.TryAddWithoutValidation("x-client-version", $SkycardsVersion) | Out-Null
 
     $content = [System.Net.Http.StringContent]::new($body, [System.Text.Encoding]::UTF8, "application/json")
     $responseMessage = $client.PostAsync("https://api.skycards.oldapes.com/users/", $content).GetAwaiter().GetResult()
@@ -160,7 +163,13 @@ if (-not $response.userData) {
     exit 1
 }
 
+$numFleets = 0
+if ($null -ne $response.userData.airlines) {
+    $numFleets = ($response.userData.airlines | Get-Member -MemberType NoteProperty | Measure-Object).Count
+}
+
 $output = [ordered]@{
+    skycardsVersion    = $SkycardsVersion
     id                 = $response.userData.id
     name               = $response.userData.name
     xp                 = $response.userData.xp
@@ -169,6 +178,7 @@ $output = [ordered]@{
     numDestinations    = $response.userData.numDestinations
     numBattleWins      = $response.userData.numBattleWins
     numAchievements    = $response.userData.numAchievements
+    numFleets          = $numFleets
     unlockedAirportIds = $response.userData.unlockedAirportIds
     uniqueRegs         = $response.userData.uniqueRegs
 }

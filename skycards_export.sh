@@ -14,6 +14,9 @@ if [[ -z "$EMAIL" || -z "$PASSWORD" ]]; then
   exit 1
 fi
 
+SKYCARDS_VERSION="2.2.2"
+OKHTTP_VERSION="4.12.0"
+
 echo "Logging in..."
 
 RESPONSE=$(curl -s -X POST "https://api.skycards.oldapes.com/users/" \
@@ -22,8 +25,8 @@ RESPONSE=$(curl -s -X POST "https://api.skycards.oldapes.com/users/" \
   -H "Connection: Keep-Alive" \
   -H "Content-Type: application/json" \
   -H "Host: api.skycards.oldapes.com" \
-  -H "User-Agent: okhttp/4.12.0" \
-  -H "x-client-version: 2.2.2" \
+  -H "User-Agent: okhttp/$OKHTTP_VERSION" \
+  -H "x-client-version: $SKYCARDS_VERSION" \
   --compressed \
   -d "{\"email\": \"$EMAIL\", \"password\": \"$PASSWORD\"}")
 
@@ -40,7 +43,8 @@ fi
 
 # Extract fields from userData and write to output file
 OUTPUT_FILE="skycards_user.json"
-echo "$RESPONSE" | jq '{
+echo "$RESPONSE" | jq --arg version "$SKYCARDS_VERSION" '{
+  skycardsVersion:   $version,
   id:                .userData.id,
   name:              .userData.name,
   xp:                .userData.xp,
@@ -49,6 +53,7 @@ echo "$RESPONSE" | jq '{
   numDestinations:   .userData.numDestinations,
   numBattleWins:     .userData.numBattleWins,
   numAchievements:   .userData.numAchievements,
+  numFleets:         (.userData.airlines // {} | keys | length),
   unlockedAirportIds:.userData.unlockedAirportIds,
   uniqueRegs:        .userData.uniqueRegs
 }' > "$OUTPUT_FILE"
