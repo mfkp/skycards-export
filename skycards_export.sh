@@ -53,9 +53,11 @@ echo "$RESPONSE" | jq --arg version "$SKYCARDS_VERSION" '{
   numDestinations:   .userData.numDestinations,
   numBattleWins:     .userData.numBattleWins,
   numAchievements:   .userData.numAchievements,
-  numFleets:         (.userData.airlines // {} | keys | length),
-  unlockedAirportIds:.userData.unlockedAirportIds,
-  uniqueRegs:        .userData.uniqueRegs
+  numFleets:          (.userData.airlines // {} | keys | length),
+  unlockedAirportIds: .userData.unlockedAirportIds,
+  completedAirportIds:.userData.completedAirportIds,
+  airlines:           .userData.airlines,
+  uniqueRegs:         .userData.uniqueRegs
 }' > "$OUTPUT_FILE"
 
 if [[ $? -eq 0 ]]; then

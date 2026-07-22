@@ -178,9 +178,11 @@ $output = [ordered]@{
     numDestinations    = $response.userData.numDestinations
     numBattleWins      = $response.userData.numBattleWins
     numAchievements    = $response.userData.numAchievements
-    numFleets          = $numFleets
-    unlockedAirportIds = $response.userData.unlockedAirportIds
-    uniqueRegs         = $response.userData.uniqueRegs
+    numFleets           = $numFleets
+    unlockedAirportIds  = $response.userData.unlockedAirportIds
+    completedAirportIds = $response.userData.completedAirportIds
+    airlines            = $response.userData.airlines
+    uniqueRegs          = $response.userData.uniqueRegs
 }
 
 try {
