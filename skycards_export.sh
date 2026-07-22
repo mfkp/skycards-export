@@ -45,6 +45,7 @@ fi
 OUTPUT_FILE="skycards_user.json"
 echo "$RESPONSE" | jq --arg version "$SKYCARDS_VERSION" '{
   skycardsVersion:   $version,
+  exportedAt:        (now | todate),
   id:                .userData.id,
   name:              .userData.name,
   xp:                .userData.xp,

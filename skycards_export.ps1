@@ -170,6 +170,7 @@ if ($null -ne $response.userData.airlines) {
 
 $output = [ordered]@{
     skycardsVersion    = $SkycardsVersion
+    exportedAt         = [DateTimeOffset]::UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ")
     id                 = $response.userData.id
     name               = $response.userData.name
     xp                 = $response.userData.xp
