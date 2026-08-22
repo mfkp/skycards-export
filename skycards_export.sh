@@ -14,7 +14,7 @@ if [[ -z "$EMAIL" || -z "$PASSWORD" ]]; then
   exit 1
 fi
 
-SKYCARDS_VERSION="2.2.5"
+SKYCARDS_VERSION="2.2.6"
 OKHTTP_VERSION="4.12.0"
 
 echo "Logging in..."

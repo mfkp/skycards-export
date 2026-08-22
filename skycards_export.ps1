@@ -6,7 +6,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$SkycardsVersion = "2.2.5"
+$SkycardsVersion = "2.2.6"
 $OkhttpVersion = "4.12.0"
 
 function Fail {
